@@ -1,10 +1,10 @@
-.PHONY: all goutils deps test modtidy gofmt vet modlist
+.PHONY: all go-utils deps test modtidy gofmt vet modlist
 
 GO111MODULE=on
 
-all: goutils
+all: go-utils
 
-goutils:
+go-utils:
 	go build
 
 deps:
