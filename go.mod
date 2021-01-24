@@ -1,4 +1,4 @@
-module github.com:peterska/go-utils
+module github.com/peterska/go-utils
 
 go 1.15
 
