@@ -40,7 +40,7 @@ var (
 	debuglevel = 0
 	loglevel   = 0
 
-	// logging object
+	// Log logging object
 	Log = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
 )
 
@@ -57,7 +57,7 @@ func init() {
 	DisableProfiling()
 }
 
-// returns caller function name
+// Callername returns caller function name
 func Callername() string {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(3, pc)
@@ -65,7 +65,7 @@ func Callername() string {
 	return shortFuncname(f.Name())
 }
 
-// returns function name
+// Funcname returns function name
 func Funcname() string {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(2, pc)
@@ -73,7 +73,7 @@ func Funcname() string {
 	return shortFuncname(f.Name())
 }
 
-// return the function name and line number of the caller
+// Trace return the function name and line number of the caller
 func Trace() {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(2, pc)
@@ -82,29 +82,29 @@ func Trace() {
 	fmt.Printf("%s:%d %s\n", file, line, shortFuncname(f.Name()))
 }
 
-// return true if running under kubernetes
+// KubernetesPod return true if running under kubernetes
 func KubernetesPod() bool {
 	_, exists := os.LookupEnv("KUBERNETES_PORT")
 	return exists
 }
 
-// set production mode that can be queried by other functions
+// Setproduction set production mode that can be queried by other functions
 func Setproduction() {
 	SetDebuglevel(0)
 }
 
-// set the debug level that can be queried by other functions
+// SetDebuglevel set the debug level that can be queried by other functions
 func SetDebuglevel(level int) {
 	debuglevel = level
 	DisableProfiling()
 }
 
-// check whether go profiling is enabled
+// ProfilingEnabled check whether go profiling is enabled
 func ProfilingEnabled() bool {
 	return runtime.MemProfileRate != 0
 }
 
-// disables go profiling
+// DisableProfiling disables go profiling
 func DisableProfiling() {
 	runtime.MemProfileRate = 0
 	runtime.SetBlockProfileRate(0)
@@ -112,7 +112,7 @@ func DisableProfiling() {
 	runtime.SetMutexProfileFraction(0)
 }
 
-// enables go profiling
+// EnableProfiling enables go profiling
 func EnableProfiling() {
 	runtime.SetBlockProfileRate(1000)
 	runtime.SetCPUProfileRate(1000)
@@ -120,7 +120,7 @@ func EnableProfiling() {
 	runtime.MemProfileRate = 10
 }
 
-// Set the state of go profiling
+// SetProfiling set the state of go profiling
 func SetProfiling(on bool) {
 	if on {
 		EnableProfiling()
@@ -129,37 +129,37 @@ func SetProfiling(on bool) {
 	}
 }
 
-// check whether we are running in production mode
+// Production check whether we are running in production mode
 func Production() bool {
 	return debuglevel == 0
 }
 
-// check whether we are running in development mode
+// Development check whether we are running in development mode
 func Development() bool {
 	return debuglevel > 0
 }
 
-// return the current debug level
+// Debuglevel return the current debug level
 func Debuglevel() int {
 	return debuglevel
 }
 
-// set the loglevel or verbosity
+// SetLoglevel set the loglevel or verbosity
 func SetLoglevel(level int) {
 	loglevel = level
 }
 
-// check the loglevel
+// Loglevel check the loglevel
 func Loglevel() int {
 	return loglevel
 }
 
-// dump the passed interface as JSON
+// PrintAsJSON dump the passed interface as JSON
 func PrintAsJSON(v interface{}) {
 	json.NewEncoder(os.Stdout).Encode(v)
 }
 
-// read a password from the terminal, characters are not echoed
+// ReadPassword read a password from the terminal, characters are not echoed
 func ReadPassword(prompt string) ([]byte, error) {
 	fmt.Fprintf(os.Stderr, "%v ", prompt)
 	password, err := terminal.ReadPassword(int(syscall.Stdin))
@@ -167,7 +167,7 @@ func ReadPassword(prompt string) ([]byte, error) {
 	return password, err
 }
 
-// read a string from the terminal
+// ReadString read a string from the terminal
 func ReadString(prompt string) ([]byte, error) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Fprintf(os.Stderr, "%v ", prompt)
